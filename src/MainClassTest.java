@@ -2,7 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class MainClassTest extends MainClass {
-
+  //HW Test1
   @Test
   public void testGetLocalNumber() {
     int actual = getLocalNumber();
