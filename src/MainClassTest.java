@@ -26,7 +26,17 @@ public class MainClassTest extends MainClass {
     String sub_string2 = "hello";
 
     if (!(test_string.contains(sub_string1) || (test_string.contains(sub_string2)))) {
-    Assert.fail("Expected string '" + test_string + "' doesn't contain 'Hello' or 'hello'");
+      Assert.fail("Expected string '" + test_string + "' doesn't contain 'Hello' or 'hello'");
     }
+  }
+
+  @Test
+  //HW Test3 another variant
+  public void testGetClassString2() {
+    String test_string = getClassString();
+    String sub_string = "Hello";
+
+    Assert.assertTrue("Expected string '" + test_string + "' doesn't contain 'Hello' or 'hello'",
+            test_string.toLowerCase().contains(sub_string.toLowerCase()));
   }
 }
