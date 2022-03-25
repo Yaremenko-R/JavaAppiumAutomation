@@ -17,4 +17,16 @@ public class MainClassTest extends MainClass {
     int actual = getClassNumber();
     Assert.assertTrue("Expected class number is less than 45", actual > 45);
   }
+
+  @Test
+  //HW Test3
+  public void testGetClassString() {
+    String test_string = getClassString();
+    String sub_string1 = "Hello";
+    String sub_string2 = "hello";
+
+    if (!(test_string.contains(sub_string1) || (test_string.contains(sub_string2)))) {
+    Assert.fail("Expected string '" + test_string + "' doesn't contain 'Hello' or 'hello'");
+    }
+  }
 }
