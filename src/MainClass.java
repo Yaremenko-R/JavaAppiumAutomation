@@ -1,8 +1,13 @@
 public class MainClass {
 
-  int localNumber = 14;
-  //HW Test1
+  private int class_number = 20;
+  int local_number = 14;
+
   public int getLocalNumber() {
-      return localNumber;
-    }
+    return local_number;
   }
+
+  public int getClassNumber() {
+    return class_number;
+  }
+}
