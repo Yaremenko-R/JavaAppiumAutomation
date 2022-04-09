@@ -130,6 +130,39 @@ public class FirstTest {
     );
   }
 
+  @Test
+  public void testCancelSearch2() {
+    waitForElementAndClick(
+            By.id("org.wikipedia:id/search_container"),
+            "Cannot find 'Search Wikipedia' Input",
+            10
+    );
+
+    waitForElementAndSendKeys(
+            By.xpath("//*[contains(@text,'Search')]"),
+            "Java",
+            "Cannot find search input",
+            15);
+
+    waitForElementPresent(
+            By.id("org.wikipedia:id/search_results_list"),
+            "Search results list is empty",
+            15
+    );
+
+    waitForElementAndClick(
+            By.id("org.wikipedia:id/search_close_btn"),
+            "Cannot find X to cancel search",
+            10
+    );
+
+    waitForElementPresent(
+            By.id("org.wikipedia:id/search_empty_message"),
+            "Search results is still on the page",
+            15
+    );
+  }
+
   private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
     WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
     wait.withMessage(error_message + "\n");
