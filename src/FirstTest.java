@@ -188,6 +188,13 @@ public class FirstTest {
     return waitForElementPresent(by, "Cannot find element", 10);
   }
 
+  private List<WebElement> waitForElementsPresent(By by) {
+    WebDriverWait wait = new WebDriverWait(driver, 15);
+    wait.withMessage("Cannot find elements" + "\n");
+    return wait.until(
+            ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+  }
+
   private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
     WebElement element = waitForElementPresent(by, error_message, 10);
     element.click();
@@ -224,7 +231,7 @@ public class FirstTest {
   }
 
   private void assertSearchResultsCorrectness(By by, String expected_text, String error_message) {
-    List<WebElement> elements = driver.findElements(by);
+    List<WebElement> elements = waitForElementsPresent(by);
     for (WebElement element : elements) {
       String act_text = element.getAttribute("text");
       String exp_text = expected_text;
