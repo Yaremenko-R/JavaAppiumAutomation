@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
   private AppiumDriver driver;
@@ -58,8 +59,7 @@ public class FirstTest {
     waitForElementAndClick(
             By.id("org.wikipedia:id/search_container"),
             "Cannot find 'Search Wikipedia' Input",
-            10
-    );
+            10);
 
     waitForElementAndSendKeys(
             By.xpath("//*[contains(@text,'Search')]"),
@@ -70,20 +70,17 @@ public class FirstTest {
     waitForElementAndClear(
             By.id("org.wikipedia:id/search_src_text"),
             "Cannot find search field",
-            15
-    );
+            15);
 
     waitForElementAndClick(
             By.id("org.wikipedia:id/search_close_btn"),
             "Cannot find X to cancel search",
-            10
-    );
+            10);
 
     waitForElementNotPresent(
             By.id("org.wikipedia:id/search_close_btn"),
             "X is still present on the page",
-            10
-    );
+            10);
   }
 
   @Test
@@ -112,8 +109,7 @@ public class FirstTest {
     Assert.assertEquals(
             "Unexpected title",
             "Java (programming language)",
-            article_title
-    );
+            article_title);
   }
 
   @Test
@@ -126,8 +122,7 @@ public class FirstTest {
     assertElementHasText(
             By.xpath("//*[contains(@text,'Search Wikipedia')]"),
             "Search Wikipedia",
-            "Actual text of the element is not equal to expected text"
-    );
+            "Actual text of the element is not equal to expected text");
   }
 
   @Test
@@ -135,8 +130,7 @@ public class FirstTest {
     waitForElementAndClick(
             By.id("org.wikipedia:id/search_container"),
             "Cannot find 'Search Wikipedia' Input",
-            10
-    );
+            10);
 
     waitForElementAndSendKeys(
             By.xpath("//*[contains(@text,'Search')]"),
@@ -147,20 +141,36 @@ public class FirstTest {
     waitForElementPresent(
             By.id("org.wikipedia:id/search_results_list"),
             "Search results list is empty",
-            15
-    );
+            15);
 
     waitForElementAndClick(
             By.id("org.wikipedia:id/search_close_btn"),
             "Cannot find X to cancel search",
-            10
-    );
+            10);
 
     waitForElementPresent(
             By.id("org.wikipedia:id/search_empty_message"),
             "Search results is still on the page",
-            15
-    );
+            15);
+  }
+
+  @Test
+  public void testSearchResultsCheck() {
+    waitForElementAndClick(
+            By.id("org.wikipedia:id/search_container"),
+            "Cannot find 'Search Wikipedia' Input",
+            10);
+
+    waitForElementAndSendKeys(
+            By.xpath("//*[contains(@text,'Search')]"),
+            "JAVA",
+            "Cannot find search input",
+            15);
+
+    assertSearchResultsCorrectness(
+            By.id("org.wikipedia:id/page_list_item_title"),
+            "JAVA",
+            "Search results do not contain expected values");
   }
 
   private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
@@ -211,5 +221,14 @@ public class FirstTest {
             error_message,
             exp_text,
             act_text);
+  }
+
+  private void assertSearchResultsCorrectness(By by, String expected_text, String error_message) {
+    List<WebElement> elements = driver.findElements(by);
+    for (WebElement element : elements) {
+      String act_text = element.getAttribute("text");
+      String exp_text = expected_text;
+      Assert.assertTrue(error_message, act_text.toLowerCase().contains(exp_text.toLowerCase()));
+    }
   }
 }
