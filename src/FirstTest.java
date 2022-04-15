@@ -582,6 +582,34 @@ public class FirstTest {
             article_title_after);
   }
 
+  @Test
+  public void testAssertTitleNoWait() {
+    waitForElementAndClick(
+            By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+            "Cannot find 'Search Wikipedia' Input",
+            15);
+
+    String search_line = "Java";
+
+    waitForElementAndSendKeys(
+            By.xpath("//*[contains(@text,'Search')]"),
+            search_line,
+            "Cannot find search input",
+            15);
+
+    String article_locator = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']";
+
+    waitForElementAndClick(
+            By.xpath(article_locator),
+            "Cannot find expected article",
+            15);
+
+    noWaitForElementAndGetAttribute(
+            By.xpath("//*[@resource-id='org.wikipedia:id/view_page_title_text']"),
+            "text",
+            "Cannot find the title of the article");
+  }
+
   private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
     WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
     wait.withMessage(error_message + "\n");
@@ -712,6 +740,15 @@ public class FirstTest {
 
   private String waitForElementAndGetAttribute(By by, String attribute, String error_message, int timeoutInSeconds) {
     WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+    return element.getAttribute(attribute);
+  }
+
+  private String noWaitForElementAndGetAttribute(By by, String attribute, String error_message) {
+    WebElement element = driver.findElementByXPath(String.valueOf(by));
+    if (element.getAttribute(attribute).isEmpty()) {
+      String default_message = "An attribute '" + attribute + "' supposed to be present";
+      throw new AssertionError(default_message + " " + error_message);
+    }
     return element.getAttribute(attribute);
   }
 }
