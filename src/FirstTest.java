@@ -18,6 +18,7 @@ public class FirstTest extends CoreTestCase {
   @Test
   public void testSearch() {
     SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
     SearchPageObject.initSearchInput();
     SearchPageObject.typeSearchLine("Java");
     SearchPageObject.waitForSearchResult("Object-oriented programming language");
@@ -25,31 +26,12 @@ public class FirstTest extends CoreTestCase {
 
   @Test
   public void testCancelSearch() {
-    MainPageObject.waitForElementAndClick(
-            By.id("org.wikipedia:id/search_container"),
-            "Cannot find 'Search Wikipedia' Input",
-            10);
-
-    MainPageObject.waitForElementAndSendKeys(
-            By.xpath("//*[contains(@text,'Search')]"),
-            "Java",
-            "Cannot find search input",
-            15);
-
-    MainPageObject.waitForElementAndClear(
-            By.id("org.wikipedia:id/search_src_text"),
-            "Cannot find search field",
-            15);
-
-    MainPageObject.waitForElementAndClick(
-            By.id("org.wikipedia:id/search_close_btn"),
-            "Cannot find X to cancel search",
-            10);
-
-    MainPageObject.waitForElementNotPresent(
-            By.id("org.wikipedia:id/search_close_btn"),
-            "X is still present on the page",
-            10);
+    SearchPageObject SearchPageObject = new SearchPageObject(driver);
+    
+    SearchPageObject.initSearchInput();
+    SearchPageObject.waitForCancelButtonToAppear();
+    SearchPageObject.clickCancelSearch();
+    SearchPageObject.waitForCancelButtonToDisappear();
   }
 
   @Test
