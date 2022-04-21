@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import ui.MainPageObject;
+import ui.SearchPageObject;
 
 public class FirstTest extends CoreTestCase {
   private MainPageObject MainPageObject;
@@ -16,21 +17,10 @@ public class FirstTest extends CoreTestCase {
 
   @Test
   public void testSearch() {
-    MainPageObject.waitForElementAndClick(
-            By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-            "Cannot find 'Search Wikipedia' Input",
-            10);
-
-    MainPageObject.waitForElementAndSendKeys(
-            By.xpath("//*[contains(@text,'Search')]"),
-            "Java",
-            "Cannot find search input",
-            10);
-
-    MainPageObject.waitForElementPresent(
-            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-            "Cannot find 'Object-oriented programming language' topic searching by 'Java'",
-            15);
+    SearchPageObject SearchPageObject = new SearchPageObject(driver);
+    SearchPageObject.initSearchInput();
+    SearchPageObject.typeSearchLine("Java");
+    SearchPageObject.waitForSearchResult("Object-oriented programming language");
   }
 
   @Test
