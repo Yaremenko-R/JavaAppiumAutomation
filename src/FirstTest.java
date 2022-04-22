@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
+import ui.ArticlePageObject;
 import ui.MainPageObject;
 import ui.SearchPageObject;
 
@@ -27,7 +28,7 @@ public class FirstTest extends CoreTestCase {
   @Test
   public void testCancelSearch() {
     SearchPageObject SearchPageObject = new SearchPageObject(driver);
-    
+
     SearchPageObject.initSearchInput();
     SearchPageObject.waitForCancelButtonToAppear();
     SearchPageObject.clickCancelSearch();
@@ -36,28 +37,15 @@ public class FirstTest extends CoreTestCase {
 
   @Test
   public void testCompareArticleTitle() {
-    MainPageObject.waitForElementAndClick(
-            By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-            "Cannot find 'Search Wikipedia' Input",
-            15);
+    SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-    MainPageObject.waitForElementAndSendKeys(
-            By.xpath("//*[contains(@text,'Search')]"),
-            "Java",
-            "Cannot find search input",
-            15);
+    SearchPageObject.initSearchInput();
+    SearchPageObject.typeSearchLine("Java");
+    SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
-    MainPageObject.waitForElementAndClick(
-            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-            "Cannot find 'Search Wikipedia' Input",
-            15);
-
-    WebElement title_element = MainPageObject.waitForElementPresent(
-            By.id("org.wikipedia:id/view_page_title_text"),
-            "Cannot find article title",
-            30);
-
-    String article_title = title_element.getAttribute("text");
+    ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+    ArticlePageObject.waitForTitleElement();
+    String article_title = ArticlePageObject.getArticleTitle();
 
     Assert.assertEquals(
             "Unexpected title",
