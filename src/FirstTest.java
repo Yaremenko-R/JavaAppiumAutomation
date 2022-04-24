@@ -201,30 +201,13 @@ public class FirstTest extends CoreTestCase {
 
   @Test
   public void testCheckSearchArticleInBackground() {
-    MainPageObject.waitForElementAndClick(
-            By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-            "Cannot find 'Search Wikipedia' Input",
-            15);
+    SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-    String search_line = "Java";
-
-    MainPageObject.waitForElementAndSendKeys(
-            By.xpath("//*[contains(@text,'Search')]"),
-            search_line,
-            "Cannot find search input",
-            15);
-
-    MainPageObject.waitForElementPresent(
-            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-            "Cannot find 'Object-oriented programming language' topic searching by " + search_line,
-            15);
-
-    driver.runAppInBackground(2);
-
-    MainPageObject.waitForElementPresent(
-            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-            "Cannot find article after returning from background",
-            15);
+    SearchPageObject.initSearchInput();
+    SearchPageObject.typeSearchLine("Java");
+    SearchPageObject.waitForSearchResult("Object-oriented programming language");
+    this.backgroundApp(2);
+    SearchPageObject.waitForSearchResult("Object-oriented programming language");
   }
 
   @Test
