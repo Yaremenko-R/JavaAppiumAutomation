@@ -28,6 +28,13 @@ public class ArticlePageObject extends MainPageObject {
     return title_element.getAttribute("text");
   }
 
+  public void getArticleTitleNoWait() {
+    this.noWaitForElementAndGetAttribute(
+            By.xpath(TITLE),
+            "text",
+            "Cannot find the title of the article");
+  }
+
   public void swipeToFooter() {
     this.swipeUpToFindElement(By.xpath(FOOTER_ELEMENT), "Cannot find the end of article", 20);
   }
