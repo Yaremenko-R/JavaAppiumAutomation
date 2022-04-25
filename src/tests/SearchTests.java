@@ -52,6 +52,21 @@ public class SearchTests extends CoreTestCase {
   }
 
   @Test
+  public void testSearchByTitleAndDesc() {
+    SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+    SearchPageObject.initSearchInput();
+    SearchPageObject.typeSearchLine("Java");
+    SearchPageObject.waitForElementByTitleAndDescription("Java (programming language)", "Object-oriented programming language");
+    int amount_of_search_results = SearchPageObject.getAmountOfFoundArticles();
+
+    assertTrue(
+            "We found too few results",
+            amount_of_search_results >= 3
+    );
+  }
+
+  @Test
   public void testSearchResultsCheck() {
     SearchPageObject SearchPageObject = new SearchPageObject(driver);
     String search_line = "JAVA";

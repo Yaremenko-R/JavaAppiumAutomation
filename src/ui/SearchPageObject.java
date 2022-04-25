@@ -11,7 +11,8 @@ public class SearchPageObject extends MainPageObject {
           SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
           SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
           SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
-  SEARCH_ARTICLE_TITLE = "org.wikipedia:id/page_list_item_title";
+          SEARCH_ARTICLE_TITLE = "org.wikipedia:id/page_list_item_title",
+          SEARCH_RESULT_BY_SUBSTRING_TITLE_DESC_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@resource-id='org.wikipedia:id/page_list_item_title/@text='{TITLE}' and @resource-id='org.wikipedia:id/page_list_item_description/@text='{DESC}']";
 
   public SearchPageObject(AppiumDriver driver) {
     super(driver);
@@ -20,6 +21,10 @@ public class SearchPageObject extends MainPageObject {
   /*TEMPLATES METHODS*/
   private static String getResultSearchElement(String substring) {
     return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+  }
+
+  private static String getResultSearchElementByTitleAndDesc(String title, String description) {
+    return SEARCH_RESULT_BY_SUBSTRING_TITLE_DESC_TPL.replace("{TITLE}", title).replace("{DESC}", description);
   }
   /*TEMPLATES METHODS*/
 
@@ -35,6 +40,11 @@ public class SearchPageObject extends MainPageObject {
   public void waitForSearchResult(String substring) {
     String search_result_xpath = getResultSearchElement(substring);
     this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring " + substring);
+  }
+
+  public void waitForElementByTitleAndDescription(String title, String description) {
+    String search_result_xpath = getResultSearchElementByTitleAndDesc(title, description);
+    this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with title " + title + " and description " + description, 15);
   }
 
   public void waitForCancelButtonToAppear() {
