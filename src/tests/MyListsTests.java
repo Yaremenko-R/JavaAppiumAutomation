@@ -6,11 +6,12 @@ import ui.ArticlePageObject;
 import ui.MyListsPageObject;
 import ui.NavigationUI;
 import ui.SearchPageObject;
+import ui.factories.SearchPageObjectFactory;
 
 public class MyListsTests extends CoreTestCase {
   @Test
   public void testSaveFirstArticleToMyList() {
-    SearchPageObject SearchPageObject = new SearchPageObject(driver);
+    SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
     SearchPageObject.initSearchInput();
     SearchPageObject.typeSearchLine("Java");
@@ -33,7 +34,7 @@ public class MyListsTests extends CoreTestCase {
 
   @Test
   public void testSaveTwoArticles() {
-    SearchPageObject SearchPageObject = new SearchPageObject(driver);
+    SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
     SearchPageObject.initSearchInput();
     String search_line = "Java";
