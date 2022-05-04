@@ -4,6 +4,7 @@ import lib.CoreTestCase;
 import org.junit.Test;
 import ui.ArticlePageObject;
 import ui.SearchPageObject;
+import ui.factories.ArticlePageObjectFactory;
 import ui.factories.SearchPageObjectFactory;
 
 public class ChangeAppConditionsTests extends CoreTestCase {
@@ -14,7 +15,7 @@ public class ChangeAppConditionsTests extends CoreTestCase {
     SearchPageObject.initSearchInput();
     SearchPageObject.typeSearchLine("Java");
     SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
-    ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+    ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
     String title_before_rotation = ArticlePageObject.getArticleTitle();
     this.rotateScreenLandscape();
     String title_after_rotation = ArticlePageObject.getArticleTitle();
