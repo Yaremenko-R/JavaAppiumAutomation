@@ -59,7 +59,12 @@ public class MyListsTests extends CoreTestCase {
     ArticlePageObject.waitForTitleElement();
     String article_title1 = ArticlePageObject.getArticleTitle();
 
-    ArticlePageObject.addArticleToMyList(name_of_folder);
+    if (Platform.getInstance().isAndroid()) {
+      ArticlePageObject.addArticleToMyList(name_of_folder);
+    } else  {
+      ArticlePageObject.addArticleToMySaved();
+    }
+
     ArticlePageObject.closeArticle();
 
     SearchPageObject.typeSearchLine(search_line);
@@ -67,14 +72,23 @@ public class MyListsTests extends CoreTestCase {
 
     ArticlePageObject.waitForTitleElement();
     String article_title2 = ArticlePageObject.getArticleTitle();
-    ArticlePageObject.addArticleToMyList(name_of_folder);
+
+    if (Platform.getInstance().isAndroid()) {
+      ArticlePageObject.addArticleToMyList(name_of_folder);
+    } else  {
+      ArticlePageObject.addArticleToMySaved();
+    }
+
     ArticlePageObject.closeArticle();
 
     NavigationUI NavigationUI = NavigationUIFactory.get(driver);
     NavigationUI.clickMyLists();
 
     MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-    MyListsPageObject.openFolderByName(name_of_folder);
+
+    if(Platform.getInstance().isAndroid()) {
+      MyListsPageObject.openFolderByName(name_of_folder);
+    }
     MyListsPageObject.swipeByArticleToDelete(article_title1);
     MyListsPageObject.waitForArticleToAppearByTitle(article_title2);
     SearchPageObject.clickByArticleWithSubstring("JavaScript");
